@@ -101,7 +101,11 @@ scriptsPattern = /<script[\s\S]*?>[\s\S]*?<\/script>/gi; // Get script URL from 
 scriptURLPattern = /<script[^>]*src="(.*?)"/gmi;
 /* harmony default export */ __webpack_exports__["a"] = ({
   props: {
-    html: String
+    html: String,
+    showLoading: {
+      type: Boolean,
+      default: true
+    }
   },
   data: function () {
     return {
@@ -201,11 +205,13 @@ var render = function() {
         staticClass: "html",
         domProps: { innerHTML: _vm._s(_vm.markup) }
       }),
-      _c("transition", { attrs: { name: "fade" } }, [
-        _vm.loading
-          ? _c("div", { staticClass: "loading" }, [_vm._v("Loading")])
-          : _vm._e()
-      ])
+      _vm.showLoading
+        ? _c("transition", { attrs: { name: "fade" } }, [
+            _vm.loading
+              ? _c("div", { staticClass: "loading" }, [_vm._v("Loading")])
+              : _vm._e()
+          ])
+        : _vm._e()
     ],
     1
   )

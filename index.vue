@@ -2,7 +2,7 @@
 
 section
 	.html(ref='html' v-html='markup')
-	transition(name='fade'): .loading(v-if='loading') Loading
+	transition(v-if='showLoading' name='fade'): .loading(v-if='loading') Loading
 
 </template>
 
@@ -22,7 +22,11 @@ scriptURLPattern = /<script[^>]*src="(.*?)"/gmi
 
 export default
 
-	props: html: String
+	props: 
+		html: String
+		showLoading:
+			type: Boolean
+			default: true
 
 	data: ->
 		loading: true
