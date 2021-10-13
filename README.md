@@ -2,7 +2,7 @@
 A component that takes a plain text field with script tags and script links and parses
 
 ## Props
-`markup`: The markup coming from the CMS
+`html`: The markup coming from the CMS
 
 ## Usage
 
