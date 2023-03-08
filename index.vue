@@ -27,6 +27,8 @@ export default
 		showLoading:
 			type: Boolean
 			default: true
+		wrapperSelector: 
+			type: String
 
 	data: ->
 		loading: true
@@ -50,10 +52,10 @@ export default
 	computed:
 
 		# Get scripts from the html
-		scripts: -> @html.match(scriptsPattern) || []
+		scripts: -> @html?.match(scriptsPattern) || []
 
 		# Just the markup without scripts
-		markup: -> @html.replace scriptsPattern, ''
+		markup: -> @html?.replace scriptsPattern, ''
 
 	methods:
 
@@ -62,22 +64,30 @@ export default
 
 			# iterate through scripts
 			for script in @scripts
+				scriptTag = new DOMParser().parseFromString(script, "text/html").querySelector("script")
+				attributes = scriptTag.attributes
 
 				# Render an external script tag
 				if scriptURL = scriptURLPattern.exec(script)
-					@externalScripts.push @loadScript scriptURL[1]
+					@externalScripts.push @loadScript scriptURL[1], attributes
 
 				# Queue up code to execute
 				else
 					@scriptCodes.push script.replace /<\/?script[^>]*>/gi, ''
 
 		# add script to head
-		loadScript: (scriptURL) -> new Promise (resolve, reject) ->
+		loadScript: (scriptURL, attributes) -> new Promise (resolve, reject) =>
 			script = document.createElement('script')
+
+			for attribute in attributes
+				script.setAttribute attribute.name, attribute.value
+
 			script.src = scriptURL
 			script.async = true
 			script.onload = resolve
 			script.onerror= reject
-			document.head.appendChild(script)
+
+			parent = if @wrapperSelector then document.querySelector @wrapperSelector else document.head
+			parent.appendChild(script)
 
 </script>

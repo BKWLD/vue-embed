@@ -94,10 +94,11 @@ module.exports =
 // https://regex101.com/r/doKHCZ/1
 // https://stackoverflow.com/a/19188718/59160
 var scriptURLPattern, scriptsPattern;
-scriptsPattern = /<script[\s\S]*?>[\s\S]*?<\/script>/gi; // Get script URL from string
+scriptsPattern = /<script[\s\S]*?>[\s\S]*?<\/script>/gi;
+
+// Get script URL from string
 // https://regex101.com/r/14IX5a/1
 // https://stackoverflow.com/questions/25632144/javascript-regex-to-get-url-from-string-containing-script-tag
-
 scriptURLPattern = /<script[^>]*src="(.*?)"/gmi;
 /* harmony default export */ __webpack_exports__["a"] = ({
   props: {
@@ -105,6 +106,9 @@ scriptURLPattern = /<script[^>]*src="(.*?)"/gmi;
     showLoading: {
       type: Boolean,
       default: true
+    },
+    wrapperSelector: {
+      type: String
     }
   },
   data: function () {
@@ -117,20 +121,17 @@ scriptURLPattern = /<script[^>]*src="(.*?)"/gmi;
   mounted: async function () {
     var code, e, i, len, ref, results;
     this.parseScripts();
-
     try {
       // Load external scripts
       await Promise.all(this.externalScripts);
       this.loading = false;
       ref = this.scriptCodes;
       results = [];
-
       for (i = 0, len = ref.length; i < len; i++) {
-        code = ref[i]; // Run inline code
-
+        code = ref[i];
+        // Run inline code
         results.push(eval(code));
       }
-
       return results;
     } catch (error) {
       // Show an error message to users
@@ -141,44 +142,51 @@ scriptURLPattern = /<script[^>]*src="(.*?)"/gmi;
   computed: {
     // Get scripts from the html
     scripts: function () {
-      return this.html.match(scriptsPattern) || [];
+      var ref;
+      return ((ref = this.html) != null ? ref.match(scriptsPattern) : void 0) || [];
     },
     // Just the markup without scripts
     markup: function () {
-      return this.html.replace(scriptsPattern, '');
+      var ref;
+      return (ref = this.html) != null ? ref.replace(scriptsPattern, '') : void 0;
     }
   },
   methods: {
     // Eval-able JS from scripts array
     parseScripts: function () {
-      var i, len, ref, results, script, scriptURL;
-      ref = this.scripts; // iterate through scripts
-
+      var attributes, i, len, ref, results, script, scriptTag, scriptURL;
+      ref = this.scripts;
+      // iterate through scripts
       results = [];
-
       for (i = 0, len = ref.length; i < len; i++) {
-        script = ref[i]; // Render an external script tag
-
+        script = ref[i];
+        scriptTag = new DOMParser().parseFromString(script, "text/html").querySelector("script");
+        attributes = scriptTag.attributes;
+        // Render an external script tag
         if (scriptURL = scriptURLPattern.exec(script)) {
-          results.push(this.externalScripts.push(this.loadScript(scriptURL[1])));
+          results.push(this.externalScripts.push(this.loadScript(scriptURL[1], attributes)));
         } else {
           // Queue up code to execute
           results.push(this.scriptCodes.push(script.replace(/<\/?script[^>]*>/gi, '')));
         }
       }
-
       return results;
     },
     // add script to head
-    loadScript: function (scriptURL) {
-      return new Promise(function (resolve, reject) {
-        var script;
+    loadScript: function (scriptURL, attributes) {
+      return new Promise((resolve, reject) => {
+        var attribute, i, len, parent, script;
         script = document.createElement('script');
+        for (i = 0, len = attributes.length; i < len; i++) {
+          attribute = attributes[i];
+          script.setAttribute(attribute.name, attribute.value);
+        }
         script.src = scriptURL;
         script.async = true;
         script.onload = resolve;
         script.onerror = reject;
-        return document.head.appendChild(script);
+        parent = this.wrapperSelector ? document.querySelector(this.wrapperSelector) : document.head;
+        return parent.appendChild(script);
       });
     }
   }
@@ -192,26 +200,25 @@ scriptURLPattern = /<script[^>]*src="(.*?)"/gmi;
 // ESM COMPAT FLAG
 __webpack_require__.r(__webpack_exports__);
 
-// CONCATENATED MODULE: ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/pug-plain-loader!./node_modules/vue-loader/lib??vue-loader-options!./index.vue?vue&type=template&id=6de5ab34&lang=pug&
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
+// CONCATENATED MODULE: ./node_modules/vue-loader/lib/loaders/templateLoader.js??ref--5!./node_modules/pug-plain-loader!./node_modules/vue-loader/lib??vue-loader-options!./index.vue?vue&type=template&id=38220151&lang=pug&
+var render = function render() {
+  var _vm = this,
+    _c = _vm._self._c
   return _c(
     "section",
     [
       _c("div", {
         ref: "html",
         staticClass: "html",
-        domProps: { innerHTML: _vm._s(_vm.markup) }
+        domProps: { innerHTML: _vm._s(_vm.markup) },
       }),
       _vm.showLoading
         ? _c("transition", { attrs: { name: "fade" } }, [
             _vm.loading
               ? _c("div", { staticClass: "loading" }, [_vm._v("Loading")])
-              : _vm._e()
+              : _vm._e(),
           ])
-        : _vm._e()
+        : _vm._e(),
     ],
     1
   )
@@ -220,7 +227,7 @@ var staticRenderFns = []
 render._withStripped = true
 
 
-// CONCATENATED MODULE: ./index.vue?vue&type=template&id=6de5ab34&lang=pug&
+// CONCATENATED MODULE: ./index.vue?vue&type=template&id=38220151&lang=pug&
 
 // EXTERNAL MODULE: ./node_modules/babel-loader/lib!./node_modules/coffee-loader!./node_modules/vue-loader/lib??vue-loader-options!./index.vue?vue&type=script&lang=coffee&
 var lib_vue_loader_options_indexvue_type_script_lang_coffee_ = __webpack_require__(0);
@@ -234,20 +241,19 @@ var lib_vue_loader_options_indexvue_type_script_lang_coffee_ = __webpack_require
 // This module is a runtime utility for cleaner component module output and will
 // be included in the final webpack user bundle.
 
-function normalizeComponent (
+function normalizeComponent(
   scriptExports,
   render,
   staticRenderFns,
   functionalTemplate,
   injectStyles,
   scopeId,
-  moduleIdentifier, /* server only */
+  moduleIdentifier /* server only */,
   shadowMode /* vue-cli only */
 ) {
   // Vue.extend constructor export interop
-  var options = typeof scriptExports === 'function'
-    ? scriptExports.options
-    : scriptExports
+  var options =
+    typeof scriptExports === 'function' ? scriptExports.options : scriptExports
 
   // render functions
   if (render) {
@@ -267,7 +273,8 @@ function normalizeComponent (
   }
 
   var hook
-  if (moduleIdentifier) { // server build
+  if (moduleIdentifier) {
+    // server build
     hook = function (context) {
       // 2.3 injection
       context =
@@ -293,11 +300,11 @@ function normalizeComponent (
   } else if (injectStyles) {
     hook = shadowMode
       ? function () {
-        injectStyles.call(
-          this,
-          (options.functional ? this.parent : this).$root.$options.shadowRoot
-        )
-      }
+          injectStyles.call(
+            this,
+            (options.functional ? this.parent : this).$root.$options.shadowRoot
+          )
+        }
       : injectStyles
   }
 
@@ -308,16 +315,14 @@ function normalizeComponent (
       options._injectStyles = hook
       // register for functional component in vue file
       var originalRender = options.render
-      options.render = function renderWithStyleInjection (h, context) {
+      options.render = function renderWithStyleInjection(h, context) {
         hook.call(context)
         return originalRender(h, context)
       }
     } else {
       // inject component registration as beforeCreate hook
       var existing = options.beforeCreate
-      options.beforeCreate = existing
-        ? [].concat(existing, hook)
-        : [hook]
+      options.beforeCreate = existing ? [].concat(existing, hook) : [hook]
     }
   }
 
@@ -346,9 +351,6 @@ var component = normalizeComponent(
   
 )
 
-/* hot reload */
-if (false) { var api; }
-component.options.__file = "index.vue"
 /* harmony default export */ var index = __webpack_exports__["default"] = (component.exports);
 
 /***/ })
