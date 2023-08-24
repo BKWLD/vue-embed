@@ -1,9 +1,7 @@
 <template lang='pug'>
-
 section
-	.html(ref='html' v-html='markup')
-	transition(v-if='showLoading' name='fade'): .loading(v-if='loading') Loading
-
+  .html(ref="html", v-html="markup")
+  transition(v-if="showLoading", name="fade"): .loading(v-if="loading") Loading
 </template>
 
 <!-- ––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––– -->
@@ -22,7 +20,7 @@ scriptURLPattern = /<script[^>]*src="(.*?)"/gmi
 
 export default
 
-	props: 
+	props:
 		html: String
 		showLoading:
 			type: Boolean
@@ -72,12 +70,16 @@ export default
 					@scriptCodes.push script.replace /<\/?script[^>]*>/gi, ''
 
 		# add script to head
-		loadScript: (scriptURL) -> new Promise (resolve, reject) ->
-			script = document.createElement('script')
-			script.src = scriptURL
-			script.async = true
-			script.onload = resolve
-			script.onerror= reject
-			document.head.appendChild(script)
+		loadScript: (scriptURL) ->
+			console.log "Loading: " + scriptURL
+			# Capture html from `this`
+			html = @$refs.html
+			new Promise (resolve, reject) ->
+				script = document.createElement('script')
+				script.src = scriptURL
+				# script.async = true
+				script.onload = resolve
+				script.onerror= reject
+				html.appendChild(script)
 
 </script>
