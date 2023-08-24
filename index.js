@@ -167,18 +167,17 @@ scriptURLPattern = /<script[^>]*src="(.*?)"/gmi;
     },
     // add script to head
     loadScript: function (scriptURL) {
-      var html;
-      console.log("Loading: " + scriptURL);
+      var target;
       // Capture html from `this`
-      html = this.$refs.html;
+      target = this.$refs.html || document.head;
       return new Promise(function (resolve, reject) {
         var script;
         script = document.createElement('script');
         script.src = scriptURL;
-        // script.async = true
+        script.async = true;
         script.onload = resolve;
         script.onerror = reject;
-        return html.appendChild(script);
+        return target.appendChild(script);
       });
     }
   }
@@ -192,7 +191,7 @@ scriptURLPattern = /<script[^>]*src="(.*?)"/gmi;
 // ESM COMPAT FLAG
 __webpack_require__.r(__webpack_exports__);
 
-// CONCATENATED MODULE: ./node_modules/vue-loader/lib/loaders/templateLoader.js??ref--5!./node_modules/pug-plain-loader!./node_modules/vue-loader/lib??vue-loader-options!./index.vue?vue&type=template&id=4a1e8bb5&lang=pug&
+// CONCATENATED MODULE: ./node_modules/vue-loader/lib/loaders/templateLoader.js??ref--5!./node_modules/pug-plain-loader!./node_modules/vue-loader/lib??vue-loader-options!./index.vue?vue&type=template&id=6412d8d4&lang=pug&
 var render = function render() {
   var _vm = this,
     _c = _vm._self._c
@@ -219,7 +218,7 @@ var staticRenderFns = []
 render._withStripped = true
 
 
-// CONCATENATED MODULE: ./index.vue?vue&type=template&id=4a1e8bb5&lang=pug&
+// CONCATENATED MODULE: ./index.vue?vue&type=template&id=6412d8d4&lang=pug&
 
 // EXTERNAL MODULE: ./node_modules/babel-loader/lib!./node_modules/coffee-loader!./node_modules/vue-loader/lib??vue-loader-options!./index.vue?vue&type=script&lang=coffee&
 var lib_vue_loader_options_indexvue_type_script_lang_coffee_ = __webpack_require__(0);
