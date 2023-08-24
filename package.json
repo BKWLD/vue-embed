@@ -31,9 +31,10 @@
     "vue-loader": "^15.7.0",
     "vue-template-compiler": "^2.6.10",
     "webpack": "^4.29.6",
-    "webpack-cli": "^3.3.0"
-  },
-  "dependencies": {
+    "webpack-cli": "^3.3.0",
     "webpack-node-externals": "^3.0.0"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }
