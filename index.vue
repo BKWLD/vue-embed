@@ -71,15 +71,14 @@ export default
 
 		# add script to head
 		loadScript: (scriptURL) ->
-			console.log "Loading: " + scriptURL
 			# Capture html from `this`
-			html = @$refs.html
+			target = @$refs.html || document.head
 			new Promise (resolve, reject) ->
 				script = document.createElement('script')
 				script.src = scriptURL
-				# script.async = true
+				script.async = true
 				script.onload = resolve
 				script.onerror= reject
-				html.appendChild(script)
+				target.appendChild(script)
 
 </script>
