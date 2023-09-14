@@ -2,8 +2,9 @@
 A component that takes a plain text field with script tags and script links and parses
 
 ## Props
-`html`: The markup coming from the CMS
-`showLoading`: When true, shows "Loading" on the front end while the external scripts are loading.
+
+- `html`: The markup coming from the CMS
+- `showLoading`: When true, shows "Loading" on the front end while the external scripts are loading.
 
 ## Usage
 
