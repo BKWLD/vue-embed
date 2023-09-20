@@ -97,9 +97,9 @@ var scriptURLPattern, scriptsPattern;
 scriptsPattern = /<script[\s\S]*?>[\s\S]*?<\/script>/gi;
 
 // Get script URL from string
-// https://regex101.com/r/14IX5a/1
+// https://regex101.com/r/14IX5a/2
 // https://stackoverflow.com/questions/25632144/javascript-regex-to-get-url-from-string-containing-script-tag
-scriptURLPattern = /<script[^>]*src="(.*?)"/gmi;
+scriptURLPattern = /<script[^>]*src=['"](.*?)['"]/gmi;
 /* harmony default export */ __webpack_exports__["a"] = ({
   props: {
     html: String,
@@ -191,7 +191,7 @@ scriptURLPattern = /<script[^>]*src="(.*?)"/gmi;
 // ESM COMPAT FLAG
 __webpack_require__.r(__webpack_exports__);
 
-// CONCATENATED MODULE: ./node_modules/vue-loader/lib/loaders/templateLoader.js??ref--5!./node_modules/pug-plain-loader!./node_modules/vue-loader/lib??vue-loader-options!./index.vue?vue&type=template&id=6412d8d4&lang=pug&
+// CONCATENATED MODULE: ./node_modules/vue-loader/lib/loaders/templateLoader.js??ref--5!./node_modules/pug-plain-loader!./node_modules/vue-loader/lib??vue-loader-options!./index.vue?vue&type=template&id=6e91cb2b&lang=pug&
 var render = function render() {
   var _vm = this,
     _c = _vm._self._c
@@ -218,7 +218,7 @@ var staticRenderFns = []
 render._withStripped = true
 
 
-// CONCATENATED MODULE: ./index.vue?vue&type=template&id=6412d8d4&lang=pug&
+// CONCATENATED MODULE: ./index.vue?vue&type=template&id=6e91cb2b&lang=pug&
 
 // EXTERNAL MODULE: ./node_modules/babel-loader/lib!./node_modules/coffee-loader!./node_modules/vue-loader/lib??vue-loader-options!./index.vue?vue&type=script&lang=coffee&
 var lib_vue_loader_options_indexvue_type_script_lang_coffee_ = __webpack_require__(0);
