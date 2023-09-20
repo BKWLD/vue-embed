@@ -14,9 +14,9 @@ section
 scriptsPattern = /<script[\s\S]*?>[\s\S]*?<\/script>/gi
 
 # Get script URL from string
-# https://regex101.com/r/14IX5a/1
+# https://regex101.com/r/14IX5a/2
 # https://stackoverflow.com/questions/25632144/javascript-regex-to-get-url-from-string-containing-script-tag
-scriptURLPattern = /<script[^>]*src="(.*?)"/gmi
+scriptURLPattern = /<script[^>]*src=['"](.*?)['"]/gmi
 
 export default
 
